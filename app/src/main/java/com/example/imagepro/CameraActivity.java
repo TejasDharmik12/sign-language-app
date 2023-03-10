@@ -6,12 +6,15 @@ import androidx.core.content.ContextCompat;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 
 import org.opencv.android.BaseLoaderCallback;
 import org.opencv.android.CameraBridgeViewBase;
@@ -25,6 +28,7 @@ import java.io.IOException;
 
 public class CameraActivity extends Activity implements CameraBridgeViewBase.CvCameraViewListener2{
     private static final String TAG="MainActivity";
+    private Button signTutb;
 
     private Mat mRgba;
     private Mat mGray;
@@ -55,6 +59,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
@@ -66,29 +71,30 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
             ActivityCompat.requestPermissions(CameraActivity.this, new String[] {Manifest.permission.CAMERA}, MY_PERMISSIONS_REQUEST_CAMERA);
         }
 
+
         setContentView(R.layout.activity_camera);
 
         mOpenCvCameraView=(CameraBridgeViewBase) findViewById(R.id.frame_Surface);
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         mOpenCvCameraView.setCvCameraViewListener(this);
         try{
-            // now first change model name and input size
-            // input_size of tensorflow model is 300.
-            // Now change custom_label.txt for hand detection
-            // Change layout for hand detection
-            // Now select device and run
-            // If you want to know how I made this app watch my tutorial on custom object detection and
-            // Real-time object detection android app
-            // Everything is working
-            // Next tutorial series I will make sign language detection
-            // bye
-            objectDetectorClass=new objectDetectorClass(getAssets(),"hand_model.tflite","custom_label.txt",300);
+
+            objectDetectorClass=new objectDetectorClass(getAssets(),"hand_model.tflite","custom_label.txt",300,"sign_language_model.tflite",96);
             Log.d("MainActivity","Model is successfully loaded");
         }
         catch (IOException e){
             Log.d("MainActivity","Getting some error");
             e.printStackTrace();
         }
+
+        signTutb = findViewById(R.id.signtut);
+        signTutb.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(CameraActivity.this,signtut.class);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

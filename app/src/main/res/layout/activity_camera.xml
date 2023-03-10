@@ -9,4 +9,14 @@
         android:layout_height="match_parent"
         android:id="@+id/frame_Surface"/>
 
+    <Button
+        android:id="@+id/signtut"
+        android:layout_width="105dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="650dp"
+        android:layout_marginLeft="150dp"
+        android:background="@color/purple_500"
+        android:textColor="@color/white"
+        android:text="Tutorial" />
+
 </FrameLayout>
